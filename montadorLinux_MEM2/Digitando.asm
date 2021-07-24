@@ -12,7 +12,11 @@
 jmp main
 
 comando: string "                        "
-boasvindas: string "Bem-vindo ao AOC_ICMC OS"
+boasvindas: string "Bem-vindo ao AOC_ICMC OS!"
+cnf: string "Comando nao encontrado."
+prompt: string "> "
+com1: string "run"
+com2: string "exit"
 
 main:
 
@@ -22,7 +26,14 @@ loadn r2, #3328 ; Carrega a cor da mensagem de abertura
 
 call Imprimestring ; Impremestring(posicaoinicial,endereçostring,cor)
 
-loadn r0, #80 ; Carrega onde o usuário vai começar a digitar
+loadn r3, #40
+add r0, r0, r3 ; Pula linha
+add r0, r0, r3
+loadn r1, #prompt
+loadn r2, #0
+call Imprimestring
+
+loadn r0, #82 ; Carrega onde o usuário vai começar a digitar
 loadn r1, #0 ; Carrega a cor da letra do usuário
 
 call Digitando ; Digitando(posicaoinicial,cor)
@@ -67,18 +78,18 @@ Digitando: ; A função digitando faz o controle dos caracteres na tela enquanto
 	push r6
 	push r7
 	mov r2,r0 ;Reserva em r2 a posicao inicial e r2 será a posição corrente
-	loadn r3, #'[' ; codigo ascii do backspace -  -não funciona ???
+	loadn r3, #'[' ; codigo ascii do backspace
 	; loadn r4, #'&' ; codigo ascii do esc 27 - ~ 127 - como o simulador já sai com esc para testes esta o &
 	loadn r4, #0 ; Contador do número de caracteres no comando
 	loadn r5, #' '; codigo ascii do espaço
-	loadn r6, #comando ; Move endereço da string de comando para r6
+	loadn r6, #comando ; Move endereço da string de input para r6
 	loadn r7, #']' ; codigo ascii do enter
 	
 	DigitandoLoop:
 	
 	call RecebeChar ; atualiza r0 com o char inserido pelo usuario
 	storei r6, r0 ; Move char digitado na memória que salva o comando
-	loadn r0, #boasvindas ;
+	loadn r0, #boasvindas ; Carrega fim da string de comando
 	cmp r6, r0 ; Checa tamanho da string comando contra overflow
 	loadi r0, r6;
 	jeq skip1 ; Pula incrementação caso comando atinja limite de tamanho
@@ -96,26 +107,102 @@ Digitando: ; A função digitando faz o controle dos caracteres na tela enquanto
 	jmp DigitandoLoop
 	
 	DigitandoEnter:
-	;Para pular para a proxima linha, vê quantos caracteres faltam para acabar a linha e pula eles
-	push r0
-	push r1
-	push r7
+		;Para pular para a proxima linha, vê quantos caracteres faltam para acabar a linha e pula eles
+		push r0
+		push r1
+		push r3
+		push r4
+		push r5
+		push r7
 
-	loadn r7, #40 ; Move tamanho da linha pra r7 porque mod precisa de 3 registradores
-	mod r1,r2,r7 ; pega em mod a posição atual da linha
-	sub r0,r7,r1 ; verifica quantos chars faltam para o fim da linha
-	add r2,r2,r0 ; pula os caracteres
+		loadn r7, #40 ; Move tamanho da linha pra r7
 
-	loadn r6, #comando ; Retorna r6 para início da string de comando para checagem
-	; Fazer checagem de comando aqui!!! MARK
+		; Pula linha
+			mod r1,r2,r7 ; pega em mod a posição atual da linha
+			sub r0,r7,r1 ; verifica quantos chars faltam para o fim da linha
+			add r2,r2,r0 ; pula os caracteres
 
-	jmp loadprog ; Pula para função de carregar programa - MUDAR PARA PULO CONDICIONAL DE ACORDO COM ACIMA
+		loadn r6, #comando ; Move r6 para início da string de input
+		loadn r3, #com1 ; Carrega string do comando1
+		loadn r4, #0 ; ; Carrega variavel de tamanho atual da string comando1
 
-	loadn r6, #comando ; Retorna r6 para início da string de comando para esperar novo comando
-	pop r7	
-	pop r1
-	pop r0
-	jmp DigitandoLoop
+		dec r3 ; Decrementa ponteiros para entrar no trecho seguinte incrementando-os
+		dec r6
+		loop_com1: ; Faz checagem de comando
+			inc r3 ; Incrementa ponteiro para string comando
+			inc r6 ; Incrementa ponteiro para string input
+			push r3 ; Salva r3 para usar com o cmp temporariamente
+			loadn r3, #3 ; Carrega tamanho total da string comando - MUDAR CASO MUDE COMANDO
+			cmp r4, r3 ; Checa fim da string comando
+			jeq loadprog ; Pula para função de carregar programa
+			inc r4 ; Aumenta tamanho checado da string
+			pop r3 ; Recupera r3
+			loadi r5, r6 ; Carrega conteudo da string input para comparar
+			loadi r0, r3 ; Carrega conteudo da string comando para comparar
+			cmp r0, r5 ; Compara as duas
+			jeq loop_com1 ; Vai para proxima letra
+
+		loadn r6, #comando
+		loadn r3, #com2
+		loadn r4, #0
+		dec r3;
+		dec r6;
+		loop_com2:
+			inc r3 ; Incrementa ponteiro para string comando
+			inc r6 ; Incrementa ponteiro para string input
+			push r3 ; Salva r3 para usar com o cmp temporariamente
+			loadn r3, #4 ; Carrega tamanho total da string comando - MUDAR CASO MUDE COMANDO
+			cmp r4, r3 ; Checa fim da string comando
+			jeq nao_pula_halt ; Termina programa
+			inc r4 ; Aumenta tamanho checado da string
+			pop r3 ; Recupera r3
+			loadi r5, r6 ; Carrega conteudo da string input para comparar
+			loadi r0, r3 ; Carrega conteudo da string comando para comparar
+			cmp r0, r5 ; Compara as duas
+			jeq loop_com2 ; Vai para proxima letra
+
+			jmp pula_halt
+			nao_pula_halt:
+			halt
+			pula_halt:
+
+		; Imprime erro
+			push r0
+			mov r0, r2 ; Carrega posicao a ser escrita a mensagem como linha atual
+			push r1
+			push r2
+			loadn r1, #comando;#cnf ; Carrega a string a ser impressa DEBUG
+			loadn r2, #3328 ; Carrega a cor da mensagem
+			call Imprimestring
+			pop r2
+			pop r1
+			pop r0
+
+		ImprimePrompt:
+			push r0
+			push r1
+			mov r0, r2 ; r0 e a posicao a ser escrita a string
+			push r2
+			add r0, r0, r7 ; Pula linha
+			loadn r1, #prompt ; r1 e a string a ser impressa
+			loadn r2, #0 ; r0 e a cor da mensagem
+			call Imprimestring
+			pop r2
+			add r2, r2, r7
+			inc r2
+			inc r2
+			pop r1
+			pop r0
+
+		; Fim da funcao DigitandoEnter
+			loadn r6, #comando ; Retorna r6 para início da string de comando para esperar novo comando
+			pop r7
+			pop r5
+			pop r4
+			pop r3	
+			pop r1
+			pop r0
+			jmp DigitandoLoop
 	
 	DigitandoApagar:
 	dec r2
@@ -147,8 +234,8 @@ loadprog: ; Nao precisa salvar os registradores pois a funçao carrega outro pro
 		inc r7 ; Incrementa endereço da memória RAM na qual o programa é carregado
 		cmp r6, r4 ; Ve se o programa em disco ja foi carregado por completo
 		jne loopprog ;
-	seto #end ; Muda offset de memória
-	jmp 0 ; Pula a execução para novo programa.
+	;seto #end ; Muda offset de memória
+	jmp end ; Pula a execução para novo programa.
 
 RecebeChar: ;a função RecebeChar é um loop que só se encerra ao receber uma entrada do usuario devolvendo o código ascii dessa tecla em r0
 	push r1
