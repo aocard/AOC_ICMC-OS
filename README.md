@@ -17,7 +17,7 @@ Modificações feitas no simulador e montador:
 
 	Adicionadas instruções de:
 		load ( "load rx, #numero", equivale a "rx <- MEM2[numero]" ),
-	  load indireto ( "loadi rx, ry", equivale a "rx <- MEM2[ry]" ),
+		load indireto ( "loadi rx, ry", equivale a "rx <- MEM2[ry]" ),
 		store ( "store #numero, rx", equivale a "MEM2[rx] <- numero" ),
 		store indireto ( "storei rx, ry", equivale a "MEM2[rx] <- ry" )
 
