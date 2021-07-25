@@ -45,7 +45,7 @@ ResultadoUla ULA(unsigned int x, unsigned int y, unsigned int OP, int carry);
 int FR[16] = {0};  // Flag Register: <...|Negativo|StackUnderflow|StackOverflow|DivByZero|ArithmeticOverflow|carry|zero|equal|lesser|greater>
 int reg[8]; // 8 registradores
 int selM1=0, selM2=0, selM3=0, selM4=0, selM5=0, selM6=0;
-int LoadPC=0, IncPC=0, LoadIR=0, LoadSP=0, IncSP=0, DecSP=0, LoadMAR=0, LoadFR=0, LoadOffset=0; // LoadOffset é para MEM2
+int LoadPC=0, IncPC=0, LoadIR=0, LoadSP=0, IncSP=0, DecSP=0, LoadMAR=0, LoadFR=0;
 int LoadReg[8] = {0};
 int RW=0;
 int RW2=0; // Sinal para escrita da memória de disco - MEM2
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 	int TECLADO;
 	char c;
 	int cor;
-	int PC = 0, SP = 0, Offset = 0; // Offset é para MEM2
+	int PC = 0, SP = 0;
 	int passo_a_passo = 1;
 	ResultadoUla resultadoUla;
 
@@ -122,8 +122,6 @@ loop:
 
 	if(DecSP) SP--;
 
-	if(LoadOffset) Offset = M2; // MEM2
-
 	if(LoadFR)
 		for(i=16; i--; )              // Converte o int M6 para o vetor FR
 			FR[i] = pega_pedaco(M6,i,i); //  Tem que trasformar em Vetor
@@ -157,7 +155,6 @@ loop:
 	DecSP   = 0;
 	LoadFR  = 0;
 	Video   = 0;
-	LoadOffset = 0; // MEM2
 
 
 	// Maquina de Controle
@@ -175,7 +172,6 @@ loop:
 			IR = 0;
 			MAR = 0;
 			SP = TAMANHO_MEMORIA -1;
-			Offset = 0; // MEM2
 
 			RW = 0;
 			DATA_OUT = 0;  // Barramento de saida de Dados da Memoria
@@ -187,7 +183,6 @@ loop:
 			LoadSP  = 0;
 			IncSP   = 0;
 			DecSP   = 0;
-			LoadOffset = 0; // MEM2
 			LoadFR  = 0;
 			selM1   = sPC;
 			selM2   = sDATA_OUT;
@@ -254,18 +249,6 @@ loop:
 					RW = 0;
 					selM2 = sDATA_OUT;
 					LoadReg[rx] = 1;
-					IncPC = 1;
-					// -----------------------------
-					state=STATE_FETCH;
-					break;
-
-				case SETOFFSET: //MARKER
-					// Offset = MEMORY[PC];
-					// PC++;
-					selM1 = sPC;
-					RW = 0;
-					selM2 = sDATA_OUT;
-					LoadOffset = 1;
 					IncPC = 1;
 					// -----------------------------
 					state=STATE_FETCH;
@@ -691,7 +674,6 @@ loop:
 	else if (selM1 == sMAR) M1 = MAR;
 	else if (selM1 == sM4)  M1 = M4;
 	else if (selM1 == sSP)  M1 = SP;
-	M1 = M1 + Offset; // Adiciona offset de memória
 
 	if(M1 > (TAMANHO_MEMORIA)) {
 		M1 = 0;

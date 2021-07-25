@@ -1,3 +1,11 @@
+
+--- Projeto modificado por Ariel de Oliveira Cardoso ---
+O projeto foi modificado para utilizar uma segunda memória,
+que atua como memória secundária no sistema. Instruções para
+load, store, load indireto (loadi) e store imediato (storei)
+também foram criadas. Para mais informações, vide manual do
+processador na pasta pai.
+
 # SimuladorMIPS
 REA (Recurso Educacional Aberto) para a disciplina de Organização e Arquitetura de Computadores.
 

@@ -58,7 +58,6 @@
 #define STORE2 63      // "111111"; -- STORE END Rx -- M2[END] <- Rx  Format: < inst(6) | Rx(3) | xxxxxxx >  + 16bit END
 #define LOADINDEX2 57  // "111001"; -- LOAD Rx Ry   -- Rx <- M2[Ry]  Format: < inst(6) | Rx(3) | Ry(3) | xxxx >
 #define STOREINDEX2 58 // "111010"; -- STORE Rx Ry  -- M2[Rx] <- Ry  Format: < inst(6) | Rx(3) | Ry(3) | xxxx >
-#define SETOFFSET 59   // "111011"; -- SETOFFSET Nr -- Offset <- Nr Format: < inst(6) + 18bit Nr
 
 // I/O Instructions:
 #define OUTCHAR	50  // "110010"; -- OUTCHAR Rx Ry -- Video[Ry] <- Char(Rx)								Format: < inst(6) | Rx(3) | Ry(3) | xxxx >

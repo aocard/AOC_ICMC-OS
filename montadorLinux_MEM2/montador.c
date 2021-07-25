@@ -170,10 +170,6 @@ void DetectarLabels(void)
                 parser_SkipUntilEnd(); 
                 end_cnt+=2; 
                 break;
-						case SETOFFSET_CODE :
-							parser_SkipUntilEnd();
-							end_cnt+=2; //MARK
-							break;
             case LOADINDEX_CODE :
             case STOREINDEX_CODE :
 						case LOADINDEX2_CODE :
@@ -474,23 +470,6 @@ void MontarInstrucoes(void)
                     end_cnt +=1;
                     free(str_tmp1);
                     free(str_tmp2);
-                    break;
-
-                /* ==============
-                   Setoffset #Nr
-                   ==============
-                */
-
-                case SETOFFSET_CODE : //MARK
-                    val1 = RecebeNumero();
-                    str_tmp1 = NumPBinString(val1);
-                    sprintf(str_msg,"%s0000000000",SETOFFSET);
-                    parser_Write_Inst(str_msg,end_cnt);
-                    end_cnt += 1;
-                    sprintf(str_msg,"%s",str_tmp1);
-                    parser_Write_Inst(str_msg,end_cnt);
-                    end_cnt +=1;
-                    free(str_tmp1);
                     break;
 
                 /* ==============
@@ -2312,10 +2291,6 @@ int BuscaInstrucao(char * nome)
 	else if(strcmp(str_tmp,LOADIMED_STR) == 0) 
 	{
 		return LOADIMED_CODE;
-	}
-	else if(strcmp(str_tmp,SETOFFSET_STR) == 0)
-	{
-		return SETOFFSET_CODE;
 	}
 	else if(strcmp(str_tmp,LOADINDEX_STR) == 0) 
 	{

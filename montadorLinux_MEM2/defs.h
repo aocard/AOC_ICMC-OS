@@ -6,7 +6,6 @@
 #define LOAD_CODE               1
 #define STORE_CODE              2
 #define LOADIMED_CODE           84
-#define SETOFFSET_CODE          197
 #define LOADINDEX_CODE          85
 #define STOREIMED_CODE          86
 #define STOREINDEX_CODE         87
@@ -113,7 +112,6 @@
 #define LOAD            "110000"
 #define STORE           "110001"
 #define LOADIMED        "111000"
-#define SETOFFSET       "111011"
 #define STOREIMED       "111001"
 #define LOADINDEX       "111100"
 #define STOREINDEX      "111101"
@@ -190,7 +188,6 @@
 /* LOAD */
 #define LOAD_STR                "LOAD"
 #define LOADIMED_STR            "LOADN"
-#define SETOFFSET_STR           "SETO"
 #define LOADINDEX_STR           "LOADI"
 #define LOADINDEX2_STR					"LOADI2"
 
