@@ -1,4 +1,4 @@
-;		---------------
+;	---------------
 ;		-	AOC_ICMC OS -
 ;		---------------
 ;
@@ -201,7 +201,7 @@ Digitando: ; A função digitando faz o controle dos caracteres na tela enquanto
 			mov r0, r2 ; Carrega posicao a ser escrita a mensagem como linha atual
 			push r1
 			push r2
-			loadn r1, #comando;#cnf ; Carrega a string a ser impressa DEBUG
+			loadn r1, #cnf ; Carrega a string a ser impressa
 			loadn r2, #3328 ; Carrega a cor da mensagem
 			call Imprimestring
 			pop r2
