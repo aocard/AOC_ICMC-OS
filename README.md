@@ -11,6 +11,9 @@ A fazer:
 
 	Criar manual txt do SO
 
+Link do repo atual:
+  https://github.com/aocard/AOC_ICMC-OS
+
 Link do repo original:
   https://github.com/simoesusp/Processador-ICMC
 
