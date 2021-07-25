@@ -5,19 +5,19 @@ Projeto não concluído
 
 A fazer:
 
-Adicionar arquitetura e instruçoes no manual
-Criar manual txt das instrucoes
-Criar manual txt do SO
+  Adicionar arquitetura e instruçoes no manual
+  Criar manual txt das instrucoes
+  Criar manual txt do SO
 
 Link do repo original:
-	https://github.com/simoesusp/Processador-ICMC
+  https://github.com/simoesusp/Processador-ICMC
 
 Crédito dos códigos utilizados:
 
-Eduardo do Valle Simões (Projeto do processador)
+  Eduardo do Valle Simões (Projeto do processador)
 
-Breno Cunha Queiroz (Simulador OpenGL)
+  Breno Cunha Queiroz (Simulador OpenGL)
 
-Maria Eduarda Kawakami (Simulador OpenGL)
+  Maria Eduarda Kawakami (Simulador OpenGL)
 
-Nathan Oliveira (Código original para ler teclado)
+  Nathan Oliveira (Código original para ler teclado)
