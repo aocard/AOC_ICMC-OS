@@ -1,6 +1,9 @@
 # AOC_ICMC OS
 Sistema operacional para o processador ICMC
 
+Vídeo de demo:
+	https://www.youtube.com/watch?v=FjXdYv4Hh0c
+
 O sistema suporta dois comandos atualmente:
 
 	run: Carrega programa da memória de disco na memória RAM e chaveia execução para ele
@@ -13,7 +16,7 @@ Modificações feitas no simulador e montador:
 
 	Simulador lê dois arquivos agora, com nomes passador pelos parâmetros 1 e 2, respectivamente. Arquivos padrão, caso não hajam argumentos, são cpuram.mif e cpuhdd.mif
 
-	(Vide pdf para imagem da arquitetura)
+	(Vide Manuals_MEM2/Arquitetura.png para imagem da arquitetura)
 
 	Adicionadas instruções de:
 		load ( "load rx, #numero", equivale a "rx <- MEM2[numero]" ),
