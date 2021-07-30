@@ -95,6 +95,7 @@ string "000000000000000000000000000000000000000000000000000000000000000000000000
 
 comando: string "                        "
 boasvindas: string "Bem-vindo ao AOC_ICMC OS!"
+usage: string "] para enter, [ para backspace"
 cnf: string "Comando nao encontrado."
 prompt: string "> "
 com1: string "run"
@@ -110,12 +111,17 @@ call Imprimestring ; Impremestring(posicaoinicial,endereçostring,cor)
 
 loadn r3, #40
 add r0, r0, r3 ; Pula linha
+loadn r2, #0
+loadn r1, #usage
+call Imprimestring
+
+add r0, r0, r3 ; Pula linha
 add r0, r0, r3
 loadn r1, #prompt
 loadn r2, #0
 call Imprimestring
 
-loadn r0, #82 ; Carrega onde o usuário vai começar a digitar
+loadn r0, #122 ; Carrega onde o usuário vai começar a digitar
 loadn r1, #0 ; Carrega a cor da letra do usuário
 
 call Digitando ; Digitando(posicaoinicial,cor)
