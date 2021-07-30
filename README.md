@@ -39,3 +39,5 @@ Crédito dos códigos utilizados:
 	Maria Eduarda Kawakami (Simulador OpenGL)
 
 	Nathan Oliveira (Código original para ler teclado)
+
+	Bruno Piazera Larsen (Montador Linux)
